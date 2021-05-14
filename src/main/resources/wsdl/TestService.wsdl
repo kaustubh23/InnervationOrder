@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<definitions name="OrderService"
+             targetNamespace="http://example.com/order.wsdl"
+             xmlns:tns="http://example.com/order.wsdl"
+             xmlns:xsd1="http://example.com/order.xsd"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+  <types>
+    <schema targetNamespace="http://example.com/order.xsd"
+            xmlns="http://www.w3.org/2001/XMLSchema">
+      <element name="SendOrderRequest">
+        <complexType>
+          <sequence>
+       		<element name="orderNumber" type="string"/>
+       		<element name="itemCode" type="string"/>
+			<element name="description" type="string"/>
+			<element name="qty" type="string"/>
+			<element name="amount" type="string"/>
+          </sequence>
+        </complexType>
+      </element>
+      
+      <element name="SendOrderResponse">
+         <complexType>
+           <sequence>
+        	 <element name="responseCode" type="string"/>
+			 <element name="responseMessage" type="string"/>
+           </sequence>
+         </complexType>
+      </element>
+    </schema>
+  </types>
+
+  <message name="SendOrderRequestIn">
+    <part name="request" element="xsd1:SendOrderRequest"/>
+  </message>
+
+  <message name="SendOrderResponseOut">
+    <part name="response" element="xsd1:SendOrderResponse"/>
+  </message>
+
+  <portType name="OrderPortType">
+    <operation name="SendOrder">
+      <input message="tns:SendOrderRequestIn"/>
+      <output message="tns:SendOrderResponseOut"/>
+    </operation>
+  </portType>
+
+  <binding name="OrderSoapBinding" type="tns:OrderPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="SendOrder">
+      <soap:operation soapAction="http://example.com/SendOrder"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+
+  <service name="OrderService">
+    <documentation>My first service</documentation>
+    <port name="OrderPort" binding="tns:OrderSoapBinding">
+      <soap:address location="http://example.com/order"/>
+    </port>
+  </service>
+
+</definitions>
