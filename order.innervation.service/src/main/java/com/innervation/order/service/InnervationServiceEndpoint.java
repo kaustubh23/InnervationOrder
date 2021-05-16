@@ -25,25 +25,33 @@ public class InnervationServiceEndpoint implements OrderPortType {
 		
 		order.setItemCode(request.getItemCode());
 		// TODO Auto-generated method stub
-		bo.save(order);
+		saveData(order);
 		//pass this to a java bean method
 		if("123".equalsIgnoreCase(request.getItemCode())) {
 			response.setResponseCode("01");	
 			response.setResponseMessage("Out of stock)");
 			order.setResponseCode("01");
-			bo.save(order);
+			saveData(order);
 		}else {
 			response.setResponseCode("00");	
 			response.setResponseMessage("Success");
 			order.setResponseCode("00");
-			bo.save(order);
+			saveData(order);
 		}
 		
-		
-		
-		
-		
+				
 		return response;
+	}
+	
+	public void saveData(Orders order) {
+		if(bo!=null) {
+			bo.save(order);	
+		}else {
+			//do nothing
+		}
+			
+		
+		
 	}
 
 }
